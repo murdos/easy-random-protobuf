@@ -105,20 +105,18 @@ class Protobuf3MessageGenerationTest {
     }
 
     @Test
-    void shouldAllowUsingCustomRandomizerForSubMessage() {
-        Randomizer<EmbeddedProto3Message> customSupplier = () -> EmbeddedProto3Message.newBuilder()
-                .setStringField("overloaded string value")
+    void shouldUseCustomRandomizerForSubMessageWhenItsDefined() {
+        EmbeddedProto3Message customEmbeddedMessage = EmbeddedProto3Message.newBuilder()
+                .setStringField("custom string value")
                 .setEnumField(Proto3Enum.FIRST_VALUE)
                 .build();
-        EasyRandomParameters parameters = new EasyRandomParameters().randomize(EmbeddedProto3Message.class, customSupplier);
+        EasyRandomParameters parameters = new EasyRandomParameters()
+                .randomize(EmbeddedProto3Message.class, () -> customEmbeddedMessage);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isEqualTo("overloaded string value");
-            assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.FIRST_VALUE);
-        });
+        assertThat(protoInstance.getEmbeddedMessage()).isEqualTo(customEmbeddedMessage);
     }
 }
