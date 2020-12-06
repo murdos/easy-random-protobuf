@@ -1,6 +1,6 @@
 name: Java CI
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -12,5 +12,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
+      - name: Cache Maven archetypes
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn -ntp --batch-mode clean package
