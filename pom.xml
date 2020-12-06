@@ -38,9 +38,8 @@
     </properties>
 
     <scm>
-        <url>git@github.com:murdos/easy-random-protobuf.git</url>
-        <connection>scm:git:git@github.com:murdos/easy-random-protobuf.git</connection>
-        <developerConnection>scm:git:git@github.com:murdos/easy-random-protobuf.git</developerConnection>
+        <url>https://github.com/murdos/easy-random-protobuf</url>
+        <connection>scm:git:https://github.com/murdos/easy-random-protobuf.git</connection>
         <tag>HEAD</tag>
     </scm>
 
