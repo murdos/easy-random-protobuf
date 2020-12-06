@@ -12,6 +12,7 @@
 
     <description>Library providing Easy Random randomizer for Protobuf messages</description>
     <url>https://github.com/murdos/easy-random-protobuf</url>
+    <inceptionYear>2020</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,6 +30,7 @@
         <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-license-plugin.version>3.0</maven-license-plugin.version>
         <!-- plugins used for tests -->
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
@@ -168,6 +170,33 @@
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${maven-license-plugin.version}</version>
+                <configuration>
+                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                        <include>src/**/*.java</include>
+                    </includes>
+                    <properties>
+                        <owner>Aurélien Mino</owner>
+                        <email>aurelien.mino@gmail.com</email>
+                    </properties>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
