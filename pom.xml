@@ -23,7 +23,7 @@
         <easy-random.version>4.3.0</easy-random.version>
         <!-- tests dependencies tools -->
         <junit.version>5.7.0</junit.version>
-        <assertj.version>3.18.0</assertj.version>
+        <assertj.version>3.18.1</assertj.version>
         <!-- plugins -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
