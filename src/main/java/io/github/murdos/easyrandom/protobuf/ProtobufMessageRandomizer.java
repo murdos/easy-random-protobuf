@@ -4,6 +4,7 @@ import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
+import com.google.protobuf.Descriptors.FieldDescriptor.JavaType;
 import com.google.protobuf.Message;
 import com.google.protobuf.Message.Builder;
 import org.jeasy.random.EasyRandom;
@@ -19,8 +20,12 @@ import org.jeasy.random.randomizers.text.StringRandomizer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiFunction;
+
+import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.*;
 
 /**
  * Generate a random Protobuf {@link Message}.
@@ -28,38 +33,52 @@ import java.util.Random;
 public class ProtobufMessageRandomizer implements Randomizer<Message> {
 
     private final Class<Message> messageClass;
-    private final EasyRandom easyRandom;
-    private final EasyRandomParameters parameters;
     private final Random random;
-    private final LongRandomizer longRandomizer;
-    private final BooleanRandomizer booleanRandomizer;
-    private final DoubleRandomizer doubleRandomizer;
-    private final StringRandomizer stringRandomizer;
-    private final IntegerRandomizer integerRandomizer;
-    private final FloatRandomizer floatRandomizer;
-    private final ByteStringRandomizer byteStringRandomizer;
+    private final IntegerRangeRandomizer collectionSizeRandomizer;
+    private final EnumMap<JavaType, BiFunction<FieldDescriptor, Builder, Object>> fieldGenerators;
 
     public ProtobufMessageRandomizer(Class<Message> messageClass, EasyRandom easyRandom, EasyRandomParameters parameters) {
         this.messageClass = messageClass;
-        this.parameters = parameters;
-        this.easyRandom = easyRandom;
         this.random = new Random(parameters.getSeed());
-        this.booleanRandomizer = new BooleanRandomizer(parameters.getSeed());
-        this.doubleRandomizer = new DoubleRandomizer(parameters.getSeed());
-        this.stringRandomizer = new StringRandomizer(parameters.getSeed());
-        this.longRandomizer = new LongRandomizer(parameters.getSeed());
-        this.integerRandomizer = new IntegerRandomizer(parameters.getSeed());
-        this.floatRandomizer = new FloatRandomizer(parameters.getSeed());
-        this.byteStringRandomizer = new ByteStringRandomizer(parameters.getSeed());
+        this.collectionSizeRandomizer = new IntegerRangeRandomizer(
+            parameters.getCollectionSizeRange().getMin(),
+            parameters.getCollectionSizeRange().getMax(),
+            random.nextLong()
+        );
+
+        this.fieldGenerators = new EnumMap<>(JavaType.class);
+        IntegerRandomizer integerRandomizer = new IntegerRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(INT, (field, containingBuilder) -> integerRandomizer.getRandomValue());
+        LongRandomizer longRandomizer = new LongRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(LONG, (field, containingBuilder) -> longRandomizer.getRandomValue());
+        FloatRandomizer floatRandomizer = new FloatRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(FLOAT, (field, containingBuilder) -> floatRandomizer.getRandomValue());
+        DoubleRandomizer doubleRandomizer = new DoubleRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(DOUBLE, (field, containingBuilder) -> doubleRandomizer.getRandomValue());
+        BooleanRandomizer booleanRandomizer = new BooleanRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(BOOLEAN, (field, containingBuilder) -> booleanRandomizer.getRandomValue());
+        StringRandomizer stringRandomizer = new StringRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(STRING, (field, containingBuilder) -> stringRandomizer.getRandomValue());
+        ByteStringRandomizer byteStringRandomizer = new ByteStringRandomizer(parameters.getSeed());
+        this.fieldGenerators.put(BYTE_STRING, (field, containingBuilder) -> byteStringRandomizer.getRandomValue());
+        this.fieldGenerators.put(ENUM, (field, containingBuilder) -> getRandomEnumValue(field.getEnumType()));
+        this.fieldGenerators.put(MESSAGE, (field, containingBuilder) -> easyRandom.nextObject(
+            containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass()
+        ));
     }
 
     @Override
     public Message getRandomValue() {
         Message defaultInstance = instantiateMessage(messageClass);
-        return getRandomMessageValue(defaultInstance.newBuilderForType());
+        Builder builder = defaultInstance.newBuilderForType();
+        Descriptor descriptor = builder.getDescriptorForType();
+        for (FieldDescriptor field : descriptor.getFields()) {
+            populateField(field, builder);
+        }
+        return builder.build();
     }
 
-    private Message instantiateMessage(Class<Message> clazz) {
+    private static Message instantiateMessage(Class<Message> clazz) {
         try {
             Method getDefaultInstanceMethod = clazz.getMethod("getDefaultInstance");
             return (Message) getDefaultInstanceMethod.invoke(null);
@@ -68,52 +87,14 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         }
     }
 
-    private Message getRandomMessageValue(Builder builder) {
-        Descriptor descriptor = builder.getDescriptorForType();
-        for (FieldDescriptor field : descriptor.getFields()) {
-            populateField(field, builder);
-        }
-        return builder.build();
-    }
-
     private void populateField(FieldDescriptor field, Builder containingBuilder) {
+        BiFunction<FieldDescriptor, Builder, Object> generator = this.fieldGenerators.get(field.getJavaType());
         if (field.isRepeated()) {
-            int randomSize = getRandomCollectionSize(parameters);
-            for (int i = 0; i < randomSize; i++) {
-                containingBuilder.addRepeatedField(field, getFieldValue(field, containingBuilder));
+            for (int i = 0; i < collectionSizeRandomizer.getRandomValue(); i++) {
+                containingBuilder.addRepeatedField(field, generator.apply(field, containingBuilder));
             }
         } else {
-            containingBuilder.setField(field, getFieldValue(field, containingBuilder));
-        }
-    }
-
-    private int getRandomCollectionSize(EasyRandomParameters parameters) {
-        EasyRandomParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
-        return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), random.nextLong()).getRandomValue();
-    }
-
-    private Object getFieldValue(FieldDescriptor field, Builder containingBuilder) {
-        switch (field.getJavaType()) {
-            case INT:
-                return integerRandomizer.getRandomValue();
-            case LONG:
-                return longRandomizer.getRandomValue();
-            case FLOAT:
-                return floatRandomizer.getRandomValue();
-            case DOUBLE:
-                return doubleRandomizer.getRandomValue();
-            case BOOLEAN:
-                return booleanRandomizer.getRandomValue();
-            case STRING:
-                return stringRandomizer.getRandomValue();
-            case BYTE_STRING:
-                return byteStringRandomizer.getRandomValue();
-            case ENUM:
-                return getRandomEnumValue(field.getEnumType());
-            case MESSAGE:
-                return easyRandom.nextObject(containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass());
-            default:
-                throw new IllegalArgumentException("Unhandled JavaType: " + field.getJavaType());
+            containingBuilder.setField(field, generator.apply(field, containingBuilder));
         }
     }
 

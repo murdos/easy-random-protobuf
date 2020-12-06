@@ -90,11 +90,7 @@ class Protobuf3MessageGenerationTest {
                 "JxkyvRnL",
                 "RYtGKbgicZaHCBRQDSx",
                 "VLhpfQGTMDYpsBZxvfBoeygjb",
-                "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
-                "dpHYZGhtgdntugzvvKAXLhM",
-                "LlN",
-                "gNfZBdyFGRajVfJNonEnOinZj",
-                "UfzQhdgLLfDTDGspDb"
+                "UMaAIKKIkknjWEXJUfPxxQHeWKEJ"
         );
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
