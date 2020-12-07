@@ -4,7 +4,7 @@
 
     <groupId>io.github.murdos</groupId>
     <artifactId>easy-random-protobuf</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
 
     <name>Easy Random ProtoBuf support</name>
 
@@ -38,7 +38,7 @@
     <scm>
         <url>https://github.com/murdos/easy-random-protobuf</url>
         <connection>scm:git:https://github.com/murdos/easy-random-protobuf.git</connection>
-        <tag>easy-random-protobuf-0.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <ciManagement>
