@@ -28,6 +28,13 @@ message Proto3Message {
   google.protobuf.StringValue stringValueField = 17;
   repeated string repeatedStringField = 18;
   EmbeddedProto3Message embeddedMessage = 19;
+
+  oneof oneofField {
+    double firstChoice=30;
+    string secondChoice=31;
+    Proto3Enum thirdChoice=32;
+    EmbeddedProto3Message forthChoice=33;
+  }
 }
 
 enum Proto3Enum {

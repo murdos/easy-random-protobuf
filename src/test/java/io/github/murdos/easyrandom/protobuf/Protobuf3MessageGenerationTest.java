@@ -57,15 +57,14 @@ class Protobuf3MessageGenerationTest {
             assertThat(embeddedMessage.getStringField()).isNotBlank();
             assertThat(embeddedMessage.getEnumField()).isIn((Object[]) Proto3Enum.values());
         });
+        assertThat(protoInstance.getOneofFieldCase()).isNotEqualTo(Proto3Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
     }
 
     @Test
     void shouldUseCollectionSizeRangeParameters() {
         EasyRandomParameters parameters = new EasyRandomParameters().collectionSizeRange(3, 3);
         EasyRandom easyRandom = new EasyRandom(parameters);
-
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
-
         assertThat(protoInstance.getRepeatedStringFieldList()).hasSize(3);
     }
 
@@ -77,42 +76,79 @@ class Protobuf3MessageGenerationTest {
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
-
         assertThat(protoInstance.getDoubleField()).isEqualTo(0.7231742029971469);
-        assertThat(protoInstance.getFloatField()).isEqualTo(0.72317415f);
-        assertThat(protoInstance.getInt32Field()).isEqualTo(-1188957731);
-        assertThat(protoInstance.getInt64Field()).isEqualTo(-5106534569952410475L);
-        assertThat(protoInstance.getUint32Field()).isEqualTo(1018954901);
-        assertThat(protoInstance.getUint64Field()).isEqualTo(-167885730524958550L);
-        assertThat(protoInstance.getSint32Field()).isEqualTo(-39088943);
-        assertThat(protoInstance.getSint64Field()).isEqualTo(4672433029010564658L);
-        assertThat(protoInstance.getFixed32Field()).isEqualTo(1295249578);
-        assertThat(protoInstance.getFixed64Field()).isEqualTo(-7216359497931550918L);
-        assertThat(protoInstance.getSfixed32Field()).isEqualTo(1087885590);
-        assertThat(protoInstance.getSfixed64Field()).isEqualTo(-3581075550420886390L);
+        assertThat(protoInstance.getFloatField()).isEqualTo(0.99089885f);
+        assertThat(protoInstance.getInt32Field()).isEqualTo(1295249578);
+        assertThat(protoInstance.getInt64Field()).isEqualTo(4672433029010564658L);
+        assertThat(protoInstance.getUint32Field()).isEqualTo(-1680189627);
+        assertThat(protoInstance.getUint64Field()).isEqualTo(4775521195821725379L);
+        assertThat(protoInstance.getSint32Field()).isEqualTo(-1621910390);
+        assertThat(protoInstance.getSint64Field()).isEqualTo(-2298228485105199876L);
+        assertThat(protoInstance.getFixed32Field()).isEqualTo(-1219562352);
+        assertThat(protoInstance.getFixed64Field()).isEqualTo(2992351518418085755L);
+        assertThat(protoInstance.getSfixed32Field()).isEqualTo(-1366603797);
+        assertThat(protoInstance.getSfixed64Field()).isEqualTo(-3758321679654915806L);
         assertThat(protoInstance.getBoolField()).isTrue();
-        assertThat(protoInstance.getStringField()).isEqualTo("eOMtThyhVNLWUZNRcBaQKxI");
+        assertThat(protoInstance.getStringField()).isEqualTo("wSxRIexQAaxVLAiN");
         assertThat(protoInstance.getBytesField().toByteArray()).containsExactly(
-                -35, -15, 33, -71, -107, 4, -68, 60, -47, -116, -85, -3, -86, -16, 51, 77,
-                22, -47, -41, 64, 50, 38, -6, -110, 69, 87, -38, -101, 58, 15, 70, 66
+                53,114,79,60,-14,-35,50,97,116,107,41,53,-39,-28,114,79,-111,
+                98,-14,-11,-97,102,-22,83,-126,104,-108,-59,-97,93,-122,-67
         );
+
         assertThat(protoInstance.getEnumField()).isEqualTo(Proto3Enum.SECOND_VALUE);
         assertThat(protoInstance.getStringValueField())
                 .isNotNull()
-                .extracting(StringValue::getValue).isEqualTo("eOMtThyhVNLWUZNRcBaQKxI");
+                .extracting(StringValue::getValue).isEqualTo("tg");
         assertThat(protoInstance.getRepeatedStringFieldList()).containsExactly(
-                "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
-                "JxkyvRnL",
-                "RYtGKbgicZaHCBRQDSx",
-                "VLhpfQGTMDYpsBZxvfBoeygjb",
-                "UMaAIKKIkknjWEXJUfPxxQHeWKEJ"
+                "AJVH",
+                "WuGaTPB",
+                "NuGSIFWDPVPqKClkqNpxLIRO",
+                "jukCwoSTgRGMwWnAeflhVmclqMX",
+                "bWyqZZW"
         );
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
         assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isEqualTo("eOMtThyhVNLWUZNRcBaQKxI");
-            assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.SECOND_VALUE);
+            assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
+            assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.UNKNOWN);
         });
+        assertThat(protoInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.THIRDCHOICE);
+    }
+
+    @Test
+    void shouldGenerateDifferentObject() {
+        EasyRandomParameters parameters = new EasyRandomParameters()
+                .seed(123L)
+                .collectionSizeRange(3, 10);
+        EasyRandom easyRandom = new EasyRandom(parameters);
+
+        Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
+        Proto3Message secondInstance = easyRandom.nextObject(Proto3Message.class);
+
+        assertThat(protoInstance.getDoubleField()).isNotEqualTo(secondInstance.getDoubleField());
+        assertThat(protoInstance.getFloatField()).isNotEqualTo(secondInstance.getFloatField());
+        assertThat(protoInstance.getInt32Field()).isNotEqualTo(secondInstance.getInt32Field());
+        assertThat(protoInstance.getInt64Field()).isNotEqualTo(secondInstance.getInt64Field());
+        assertThat(protoInstance.getUint32Field()).isNotEqualTo(secondInstance.getUint32Field());
+        assertThat(protoInstance.getUint64Field()).isNotEqualTo(secondInstance.getUint64Field());
+        assertThat(protoInstance.getSint32Field()).isNotEqualTo(secondInstance.getSint32Field());
+        assertThat(protoInstance.getSint64Field()).isNotEqualTo(secondInstance.getSint64Field());
+        assertThat(protoInstance.getFixed32Field()).isNotEqualTo(secondInstance.getFixed32Field());
+        assertThat(protoInstance.getFixed64Field()).isNotEqualTo(secondInstance.getFixed64Field());
+        assertThat(protoInstance.getSfixed32Field()).isNotEqualTo(secondInstance.getSfixed32Field());
+        assertThat(protoInstance.getSfixed64Field()).isNotEqualTo(secondInstance.getSfixed64Field());
+
+        assertThat(protoInstance.getStringField()).isNotEqualTo(secondInstance.getStringField());
+        assertThat(protoInstance.getBytesField()).isNotEqualTo(secondInstance.getBytesField());
+
+        assertThat(protoInstance.getStringValueField()).isNotEqualTo(secondInstance.getStringValueField());
+        assertThat(protoInstance.getRepeatedStringFieldList()).isNotEqualTo(secondInstance.getRepeatedStringFieldList());
+
+        assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
+        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
+            assertThat(embeddedMessage.getStringField()).isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
+        });
+
     }
 
     @Test
