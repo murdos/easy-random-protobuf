@@ -1,8 +1,20 @@
 name: Release
 
 on:
-  release:
-    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to checkout when cutting the release."
+        required: true
+        default: "main"
+      releaseVersion:
+        description: "Default version to use when preparing a release."
+        required: true
+        default: "X.Y.Z"
+      developmentVersion:
+        description: "Default version to use for new local working copy."
+        required: true
+        default: "X.Y.Z-SNAPSHOT"
 
 jobs:
   release:
@@ -17,8 +29,18 @@ jobs:
         with:
           java-version: 8
 
-      - name: Build with Maven
-        run: mvn -ntp --batch-mode package
+      - name: Cache local Maven repository
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
 
       - name: Set up Apache Maven Central
         uses: actions/setup-java@v1
@@ -30,8 +52,8 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Publish to Apache Maven Central
-        run: mvn -ntp --batch-mode -Prelease deploy
+      - name: Prepare and perform release
+        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
