@@ -30,10 +30,10 @@ message Proto3Message {
   EmbeddedProto3Message embeddedMessage = 19;
 
   oneof oneofField {
-    double firstChoice=30;
-    string secondChoice=31;
-    Proto3Enum thirdChoice=32;
-    EmbeddedProto3Message forthChoice=33;
+    double firstChoice = 30;
+    string secondChoice = 31;
+    Proto3Enum thirdChoice = 32;
+    EmbeddedProto3Message forthChoice = 33;
   }
 }
 

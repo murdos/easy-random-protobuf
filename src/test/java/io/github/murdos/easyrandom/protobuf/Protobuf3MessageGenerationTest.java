@@ -64,7 +64,9 @@ class Protobuf3MessageGenerationTest {
     void shouldUseCollectionSizeRangeParameters() {
         EasyRandomParameters parameters = new EasyRandomParameters().collectionSizeRange(3, 3);
         EasyRandom easyRandom = new EasyRandom(parameters);
+
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
+
         assertThat(protoInstance.getRepeatedStringFieldList()).hasSize(3);
     }
 
@@ -76,6 +78,7 @@ class Protobuf3MessageGenerationTest {
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
+
         assertThat(protoInstance.getDoubleField()).isEqualTo(0.7231742029971469);
         assertThat(protoInstance.getFloatField()).isEqualTo(0.99089885f);
         assertThat(protoInstance.getInt32Field()).isEqualTo(1295249578);
@@ -122,33 +125,32 @@ class Protobuf3MessageGenerationTest {
                 .collectionSizeRange(3, 10);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
-        Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
+        Proto3Message firstInstance = easyRandom.nextObject(Proto3Message.class);
         Proto3Message secondInstance = easyRandom.nextObject(Proto3Message.class);
 
-        assertThat(protoInstance.getDoubleField()).isNotEqualTo(secondInstance.getDoubleField());
-        assertThat(protoInstance.getFloatField()).isNotEqualTo(secondInstance.getFloatField());
-        assertThat(protoInstance.getInt32Field()).isNotEqualTo(secondInstance.getInt32Field());
-        assertThat(protoInstance.getInt64Field()).isNotEqualTo(secondInstance.getInt64Field());
-        assertThat(protoInstance.getUint32Field()).isNotEqualTo(secondInstance.getUint32Field());
-        assertThat(protoInstance.getUint64Field()).isNotEqualTo(secondInstance.getUint64Field());
-        assertThat(protoInstance.getSint32Field()).isNotEqualTo(secondInstance.getSint32Field());
-        assertThat(protoInstance.getSint64Field()).isNotEqualTo(secondInstance.getSint64Field());
-        assertThat(protoInstance.getFixed32Field()).isNotEqualTo(secondInstance.getFixed32Field());
-        assertThat(protoInstance.getFixed64Field()).isNotEqualTo(secondInstance.getFixed64Field());
-        assertThat(protoInstance.getSfixed32Field()).isNotEqualTo(secondInstance.getSfixed32Field());
-        assertThat(protoInstance.getSfixed64Field()).isNotEqualTo(secondInstance.getSfixed64Field());
+        assertThat(firstInstance.getDoubleField()).isNotEqualTo(secondInstance.getDoubleField());
+        assertThat(firstInstance.getFloatField()).isNotEqualTo(secondInstance.getFloatField());
+        assertThat(firstInstance.getInt32Field()).isNotEqualTo(secondInstance.getInt32Field());
+        assertThat(firstInstance.getInt64Field()).isNotEqualTo(secondInstance.getInt64Field());
+        assertThat(firstInstance.getUint32Field()).isNotEqualTo(secondInstance.getUint32Field());
+        assertThat(firstInstance.getUint64Field()).isNotEqualTo(secondInstance.getUint64Field());
+        assertThat(firstInstance.getSint32Field()).isNotEqualTo(secondInstance.getSint32Field());
+        assertThat(firstInstance.getSint64Field()).isNotEqualTo(secondInstance.getSint64Field());
+        assertThat(firstInstance.getFixed32Field()).isNotEqualTo(secondInstance.getFixed32Field());
+        assertThat(firstInstance.getFixed64Field()).isNotEqualTo(secondInstance.getFixed64Field());
+        assertThat(firstInstance.getSfixed32Field()).isNotEqualTo(secondInstance.getSfixed32Field());
+        assertThat(firstInstance.getSfixed64Field()).isNotEqualTo(secondInstance.getSfixed64Field());
 
-        assertThat(protoInstance.getStringField()).isNotEqualTo(secondInstance.getStringField());
-        assertThat(protoInstance.getBytesField()).isNotEqualTo(secondInstance.getBytesField());
+        assertThat(firstInstance.getStringField()).isNotEqualTo(secondInstance.getStringField());
+        assertThat(firstInstance.getBytesField()).isNotEqualTo(secondInstance.getBytesField());
 
-        assertThat(protoInstance.getStringValueField()).isNotEqualTo(secondInstance.getStringValueField());
-        assertThat(protoInstance.getRepeatedStringFieldList()).isNotEqualTo(secondInstance.getRepeatedStringFieldList());
+        assertThat(firstInstance.getStringValueField()).isNotEqualTo(secondInstance.getStringValueField());
+        assertThat(firstInstance.getRepeatedStringFieldList()).isNotEqualTo(secondInstance.getRepeatedStringFieldList());
 
-        assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
+        assertThat(firstInstance.hasEmbeddedMessage()).isTrue();
+        assertThat(firstInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
             assertThat(embeddedMessage.getStringField()).isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
         });
-
     }
 
     @Test
