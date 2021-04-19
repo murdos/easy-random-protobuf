@@ -2,7 +2,7 @@
 
 [![Apache2 license](http://img.shields.io/badge/license-Apache2-brightgreen.svg?style=flat)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://github.com/murdos/easy-random-protobuf/workflows/Java%20CI/badge.svg)](https://github.com/murdos/easy-random-protobuf/actions)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.murdos/easy-random-protobuf.svg)](https://repo1.maven.org/maven2/io/github/murdos/easy-random-protobuf/0.1.0/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.murdos/easy-random-protobuf.svg)](https://repo1.maven.org/maven2/io/github/murdos/easy-random-protobuf/0.2.0/)
 [![Javadocs](https://javadoc.io/badge2/io.github.murdos/easy-random-protobuf/javadoc.svg)](https://javadoc.io/doc/io.github.murdos/easy-random-protobuf)
 
 Extension for [Easy Random library](https://github.com/j-easy/easy-random) adding support for [Protocol buffers](https://developers.google.com/protocol-buffers).
@@ -12,7 +12,7 @@ Extension for [Easy Random library](https://github.com/j-easy/easy-random) addin
 <dependency>
     <groupId>io.github.murdos</groupId>
     <artifactId>easy-random-protobuf</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
