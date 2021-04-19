@@ -84,14 +84,11 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         for (FieldDescriptor field : plainFields) {
             populateField(field, builder);
         }
-        for (Descriptors.OneofDescriptor oneofDescriptor : oneofs)
-        {
-            populateOneof(oneofDescriptor,builder);
+        for (Descriptors.OneofDescriptor oneofDescriptor : oneofs) {
+            populateOneof(oneofDescriptor, builder);
         }
         return builder.build();
     }
-
-
 
     private static Message instantiateMessage(Class<Message> clazz) {
         try {
@@ -113,8 +110,7 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
             for (int i = 0; i < collectionSizeRandomizer.getRandomValue(); i++) {
                 containingBuilder.addRepeatedField(field, generator.apply(field, containingBuilder));
             }
-        }
-        else {
+        } else {
             containingBuilder.setField(field, generator.apply(field, containingBuilder));
         }
     }

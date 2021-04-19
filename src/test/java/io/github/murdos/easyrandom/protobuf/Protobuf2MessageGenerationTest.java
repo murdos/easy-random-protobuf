@@ -18,8 +18,6 @@ package io.github.murdos.easyrandom.protobuf;
 import com.google.protobuf.StringValue;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
-import io.github.murdos.easyrandom.protobuf.testing.proto3.Proto3Enum;
-import io.github.murdos.easyrandom.protobuf.testing.proto3.Proto3Message;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.junit.jupiter.api.Test;
@@ -73,6 +71,6 @@ class Protobuf2MessageGenerationTest {
             assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
             assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
         });
-        assertThat(protoInstance.getOneofFieldCase().getNumber()).isNotEqualTo(Proto3Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
+        assertThat(protoInstance.getOneofFieldCase().getNumber()).isNotEqualTo(Proto2Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
     }
 }
