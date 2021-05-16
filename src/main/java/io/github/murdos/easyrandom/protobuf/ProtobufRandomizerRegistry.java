@@ -53,6 +53,12 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
             }
             return new ProtobufMessageRandomizer((Class<Message>) type, easyRandom, parameters);
         }
+        if (Message.Builder.class.isAssignableFrom(type)) {
+            if (easyRandom == null) {
+                easyRandom = new EasyRandom(parameters);
+            }
+            return new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, easyRandom, parameters);
+        }
         return null;
     }
 }
