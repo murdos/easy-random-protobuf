@@ -20,6 +20,9 @@ import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.api.Randomizer;
 
+/**
+ * Generate a random Protobuf {@link Message.Builder}.
+ */
 public class ProtobufMessageBuilderRandomizer implements Randomizer<Message.Builder> {
 
     private final ProtobufMessageRandomizer protobufMessageRandomizer;
@@ -37,6 +40,7 @@ public class ProtobufMessageBuilderRandomizer implements Randomizer<Message.Buil
             );
     }
 
+    @SuppressWarnings("unchecked")
     private static Class<Message> retrieveMessageClassFromBuilderClass(Class<Message.Builder> messageBuilderClass) {
         return (Class<Message>) messageBuilderClass.getEnclosingClass();
     }
@@ -44,5 +48,9 @@ public class ProtobufMessageBuilderRandomizer implements Randomizer<Message.Buil
     @Override
     public Message.Builder getRandomValue() {
         return protobufMessageRandomizer.getRandomValue().toBuilder();
+    }
+
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 }
