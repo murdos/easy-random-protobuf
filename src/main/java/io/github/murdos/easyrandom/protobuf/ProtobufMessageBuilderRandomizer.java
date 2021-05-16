@@ -24,12 +24,17 @@ public class ProtobufMessageBuilderRandomizer implements Randomizer<Message.Buil
 
     private final ProtobufMessageRandomizer protobufMessageRandomizer;
 
-    public ProtobufMessageBuilderRandomizer(Class<Message.Builder> messageBuilderClass, EasyRandom easyRandom, EasyRandomParameters parameters) {
-        this.protobufMessageRandomizer = new ProtobufMessageRandomizer(
+    public ProtobufMessageBuilderRandomizer(
+        Class<Message.Builder> messageBuilderClass,
+        EasyRandom easyRandom,
+        EasyRandomParameters parameters
+    ) {
+        this.protobufMessageRandomizer =
+            new ProtobufMessageRandomizer(
                 retrieveMessageClassFromBuilderClass(messageBuilderClass),
                 easyRandom,
                 parameters
-        );
+            );
     }
 
     private static Class<Message> retrieveMessageClassFromBuilderClass(Class<Message.Builder> messageBuilderClass) {

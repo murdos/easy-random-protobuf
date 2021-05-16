@@ -15,6 +15,8 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.google.protobuf.StringValue;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
@@ -22,15 +24,11 @@ import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class Protobuf2MessageGenerationTest {
 
     @Test
     void shouldGenerateTheSameValueForTheSameSeed() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
-                .seed(123L)
-                .collectionSizeRange(3, 10);
+        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L).collectionSizeRange(3, 10);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto2Message protoInstance = easyRandom.nextObject(Proto2Message.class);
@@ -49,28 +47,56 @@ class Protobuf2MessageGenerationTest {
         assertThat(protoInstance.getSfixed64Field()).isEqualTo(-3758321679654915806L);
         assertThat(protoInstance.getBoolField()).isTrue();
         assertThat(protoInstance.getStringField()).isEqualTo("wSxRIexQAaxVLAiN");
-        assertThat(protoInstance.getBytesField().toByteArray()).containsExactly(
-                53,114,79,60,-14,-35,50,97,116,107,41,53,-39,-28,114,79,-111,
-                98,-14,-11,-97,102,-22,83,-126,104,-108,-59,-97,93,-122,-67
-        );
+        assertThat(protoInstance.getBytesField().toByteArray())
+            .containsExactly(
+                53,
+                114,
+                79,
+                60,
+                -14,
+                -35,
+                50,
+                97,
+                116,
+                107,
+                41,
+                53,
+                -39,
+                -28,
+                114,
+                79,
+                -111,
+                98,
+                -14,
+                -11,
+                -97,
+                102,
+                -22,
+                83,
+                -126,
+                104,
+                -108,
+                -59,
+                -97,
+                93,
+                -122,
+                -67
+            );
 
         assertThat(protoInstance.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
-        assertThat(protoInstance.getStringValueField())
-                .isNotNull()
-                .extracting(StringValue::getValue).isEqualTo("tg");
-        assertThat(protoInstance.getRepeatedStringFieldList()).containsExactly(
-                "AJVH",
-                "WuGaTPB",
-                "NuGSIFWDPVPqKClkqNpxLIRO",
-                "jukCwoSTgRGMwWnAeflhVmclqMX",
-                "bWyqZZW"
-        );
+        assertThat(protoInstance.getStringValueField()).isNotNull().extracting(StringValue::getValue).isEqualTo("tg");
+        assertThat(protoInstance.getRepeatedStringFieldList())
+            .containsExactly("AJVH", "WuGaTPB", "NuGSIFWDPVPqKClkqNpxLIRO", "jukCwoSTgRGMwWnAeflhVmclqMX", "bWyqZZW");
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
-            assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
-        });
-        assertThat(protoInstance.getOneofFieldCase().getNumber()).isNotEqualTo(Proto2Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
+        assertThat(protoInstance.getEmbeddedMessage())
+            .satisfies(
+                embeddedMessage -> {
+                    assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
+                    assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
+                }
+            );
+        assertThat(protoInstance.getOneofFieldCase().getNumber())
+            .isNotEqualTo(Proto2Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
     }
 }

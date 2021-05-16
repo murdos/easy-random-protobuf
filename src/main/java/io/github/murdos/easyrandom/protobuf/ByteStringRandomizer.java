@@ -16,9 +16,8 @@
 package io.github.murdos.easyrandom.protobuf;
 
 import com.google.protobuf.ByteString;
-import org.jeasy.random.api.Randomizer;
-
 import java.util.Random;
+import org.jeasy.random.api.Randomizer;
 
 /**
  * Generate a random Protobuf {@link ByteString}.

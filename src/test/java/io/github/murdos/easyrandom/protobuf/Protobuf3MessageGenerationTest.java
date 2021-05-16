@@ -15,16 +15,15 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.google.protobuf.StringValue;
 import io.github.murdos.easyrandom.protobuf.testing.proto3.EmbeddedProto3Message;
 import io.github.murdos.easyrandom.protobuf.testing.proto3.Proto3Enum;
 import io.github.murdos.easyrandom.protobuf.testing.proto3.Proto3Message;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
-import org.jeasy.random.api.Randomizer;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class Protobuf3MessageGenerationTest {
 
@@ -53,10 +52,13 @@ class Protobuf3MessageGenerationTest {
         assertThat(protoInstance.getRepeatedStringFieldList()).isNotEmpty();
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isNotBlank();
-            assertThat(embeddedMessage.getEnumField()).isIn((Object[]) Proto3Enum.values());
-        });
+        assertThat(protoInstance.getEmbeddedMessage())
+            .satisfies(
+                embeddedMessage -> {
+                    assertThat(embeddedMessage.getStringField()).isNotBlank();
+                    assertThat(embeddedMessage.getEnumField()).isIn((Object[]) Proto3Enum.values());
+                }
+            );
         assertThat(protoInstance.getOneofFieldCase()).isNotEqualTo(Proto3Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
     }
 
@@ -72,9 +74,7 @@ class Protobuf3MessageGenerationTest {
 
     @Test
     void shouldGenerateTheSameValueForTheSameSeed() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
-                .seed(123L)
-                .collectionSizeRange(3, 10);
+        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L).collectionSizeRange(3, 10);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
@@ -93,36 +93,61 @@ class Protobuf3MessageGenerationTest {
         assertThat(protoInstance.getSfixed64Field()).isEqualTo(-3758321679654915806L);
         assertThat(protoInstance.getBoolField()).isTrue();
         assertThat(protoInstance.getStringField()).isEqualTo("wSxRIexQAaxVLAiN");
-        assertThat(protoInstance.getBytesField().toByteArray()).containsExactly(
-                53,114,79,60,-14,-35,50,97,116,107,41,53,-39,-28,114,79,-111,
-                98,-14,-11,-97,102,-22,83,-126,104,-108,-59,-97,93,-122,-67
-        );
+        assertThat(protoInstance.getBytesField().toByteArray())
+            .containsExactly(
+                53,
+                114,
+                79,
+                60,
+                -14,
+                -35,
+                50,
+                97,
+                116,
+                107,
+                41,
+                53,
+                -39,
+                -28,
+                114,
+                79,
+                -111,
+                98,
+                -14,
+                -11,
+                -97,
+                102,
+                -22,
+                83,
+                -126,
+                104,
+                -108,
+                -59,
+                -97,
+                93,
+                -122,
+                -67
+            );
 
         assertThat(protoInstance.getEnumField()).isEqualTo(Proto3Enum.SECOND_VALUE);
-        assertThat(protoInstance.getStringValueField())
-                .isNotNull()
-                .extracting(StringValue::getValue).isEqualTo("tg");
-        assertThat(protoInstance.getRepeatedStringFieldList()).containsExactly(
-                "AJVH",
-                "WuGaTPB",
-                "NuGSIFWDPVPqKClkqNpxLIRO",
-                "jukCwoSTgRGMwWnAeflhVmclqMX",
-                "bWyqZZW"
-        );
+        assertThat(protoInstance.getStringValueField()).isNotNull().extracting(StringValue::getValue).isEqualTo("tg");
+        assertThat(protoInstance.getRepeatedStringFieldList())
+            .containsExactly("AJVH", "WuGaTPB", "NuGSIFWDPVPqKClkqNpxLIRO", "jukCwoSTgRGMwWnAeflhVmclqMX", "bWyqZZW");
 
         assertThat(protoInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(protoInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
-            assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.UNKNOWN);
-        });
+        assertThat(protoInstance.getEmbeddedMessage())
+            .satisfies(
+                embeddedMessage -> {
+                    assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
+                    assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.UNKNOWN);
+                }
+            );
         assertThat(protoInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.THIRDCHOICE);
     }
 
     @Test
     void shouldSequentiallyGenerateDifferentObjects() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
-                .seed(123L)
-                .collectionSizeRange(3, 10);
+        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L).collectionSizeRange(3, 10);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message firstInstance = easyRandom.nextObject(Proto3Message.class);
@@ -145,22 +170,28 @@ class Protobuf3MessageGenerationTest {
         assertThat(firstInstance.getBytesField()).isNotEqualTo(secondInstance.getBytesField());
 
         assertThat(firstInstance.getStringValueField()).isNotEqualTo(secondInstance.getStringValueField());
-        assertThat(firstInstance.getRepeatedStringFieldList()).isNotEqualTo(secondInstance.getRepeatedStringFieldList());
+        assertThat(firstInstance.getRepeatedStringFieldList())
+            .isNotEqualTo(secondInstance.getRepeatedStringFieldList());
 
         assertThat(firstInstance.hasEmbeddedMessage()).isTrue();
-        assertThat(firstInstance.getEmbeddedMessage()).satisfies(embeddedMessage -> {
-            assertThat(embeddedMessage.getStringField()).isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
-        });
+        assertThat(firstInstance.getEmbeddedMessage())
+            .satisfies(
+                embeddedMessage -> {
+                    assertThat(embeddedMessage.getStringField())
+                        .isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
+                }
+            );
     }
 
     @Test
     void shouldUseCustomRandomizerForSubMessageWhenItsDefined() {
-        EmbeddedProto3Message customEmbeddedMessage = EmbeddedProto3Message.newBuilder()
-                .setStringField("custom string value")
-                .setEnumField(Proto3Enum.FIRST_VALUE)
-                .build();
+        EmbeddedProto3Message customEmbeddedMessage = EmbeddedProto3Message
+            .newBuilder()
+            .setStringField("custom string value")
+            .setEnumField(Proto3Enum.FIRST_VALUE)
+            .build();
         EasyRandomParameters parameters = new EasyRandomParameters()
-                .randomize(EmbeddedProto3Message.class, () -> customEmbeddedMessage);
+            .randomize(EmbeddedProto3Message.class, () -> customEmbeddedMessage);
         EasyRandom easyRandom = new EasyRandom(parameters);
 
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
