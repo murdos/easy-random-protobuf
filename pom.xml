@@ -176,11 +176,15 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${maven-license-plugin.version}</version>
                 <configuration>
-                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                            <includes>
+                                <include>src/**/*.java</include>
+                            </includes>
+                        </licenseSet>
+                    </licenseSets>
                     <strictCheck>true</strictCheck>
-                    <includes>
-                        <include>src/**/*.java</include>
-                    </includes>
                     <properties>
                         <owner>Aurélien Mino</owner>
                         <email>aurelien.mino@gmail.com</email>
