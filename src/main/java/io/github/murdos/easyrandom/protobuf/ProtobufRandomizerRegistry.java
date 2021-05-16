@@ -16,13 +16,12 @@
 package io.github.murdos.easyrandom.protobuf;
 
 import com.google.protobuf.Message;
+import java.lang.reflect.Field;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.annotation.Priority;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerRegistry;
-
-import java.lang.reflect.Field;
 
 /**
  * A registry of randomizers for Protobuf messages.

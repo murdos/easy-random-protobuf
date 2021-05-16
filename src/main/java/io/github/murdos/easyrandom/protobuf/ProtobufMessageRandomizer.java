@@ -15,6 +15,8 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.*;
+
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
@@ -23,27 +25,17 @@ import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor.JavaType;
 import com.google.protobuf.Message;
 import com.google.protobuf.Message.Builder;
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
-import org.jeasy.random.api.Randomizer;
-import org.jeasy.random.randomizers.misc.BooleanRandomizer;
-import org.jeasy.random.randomizers.number.DoubleRandomizer;
-import org.jeasy.random.randomizers.number.FloatRandomizer;
-import org.jeasy.random.randomizers.number.IntegerRandomizer;
-import org.jeasy.random.randomizers.number.LongRandomizer;
-import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
-import org.jeasy.random.randomizers.text.StringRandomizer;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Random;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.*;
+import org.jeasy.random.EasyRandom;
+import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.api.Randomizer;
+import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
+import org.jeasy.random.randomizers.text.StringRandomizer;
 
 /**
  * Generate a random Protobuf {@link Message}.
@@ -55,7 +47,11 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
     private final EasyRandom easyRandom;
     private final EasyRandomParameters parameters;
 
-    public ProtobufMessageRandomizer(Class<Message> messageClass, EasyRandom easyRandom, EasyRandomParameters parameters) {
+    public ProtobufMessageRandomizer(
+        Class<Message> messageClass,
+        EasyRandom easyRandom,
+        EasyRandomParameters parameters
+    ) {
         this.messageClass = messageClass;
         this.easyRandom = easyRandom;
         this.parameters = parameters;
@@ -66,12 +62,22 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         this.fieldGenerators.put(FLOAT, (field, containingBuilder) -> easyRandom.nextFloat());
         this.fieldGenerators.put(DOUBLE, (field, containingBuilder) -> easyRandom.nextDouble());
         this.fieldGenerators.put(BOOLEAN, (field, containingBuilder) -> easyRandom.nextBoolean());
-        this.fieldGenerators.put(STRING, (field, containingBuilder) -> new StringRandomizer(easyRandom.nextLong()).getRandomValue());
-        this.fieldGenerators.put(BYTE_STRING, (field, containingBuilder) -> new ByteStringRandomizer(easyRandom.nextLong()).getRandomValue());
+        this.fieldGenerators.put(
+                STRING,
+                (field, containingBuilder) -> new StringRandomizer(easyRandom.nextLong()).getRandomValue()
+            );
+        this.fieldGenerators.put(
+                BYTE_STRING,
+                (field, containingBuilder) -> new ByteStringRandomizer(easyRandom.nextLong()).getRandomValue()
+            );
         this.fieldGenerators.put(ENUM, (field, containingBuilder) -> getRandomEnumValue(field.getEnumType()));
-        this.fieldGenerators.put(MESSAGE, (field, containingBuilder) -> easyRandom.nextObject(
-            containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass()
-        ));
+        this.fieldGenerators.put(
+                MESSAGE,
+                (field, containingBuilder) ->
+                    easyRandom.nextObject(
+                        containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass()
+                    )
+            );
     }
 
     @Override
@@ -80,9 +86,11 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         Builder builder = defaultInstance.newBuilderForType();
         Descriptor descriptor = builder.getDescriptorForType();
         List<Descriptors.OneofDescriptor> oneofs = descriptor.getOneofs();
-        List<FieldDescriptor> plainFields = descriptor.getFields().stream()
-                .filter(field-> field.getContainingOneof() == null)
-                .collect(Collectors.toList());
+        List<FieldDescriptor> plainFields = descriptor
+            .getFields()
+            .stream()
+            .filter(field -> field.getContainingOneof() == null)
+            .collect(Collectors.toList());
         for (FieldDescriptor fieldDescriptor : plainFields) {
             populateField(fieldDescriptor, builder);
         }
@@ -105,9 +113,9 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         BiFunction<FieldDescriptor, Builder, Object> generator = this.fieldGenerators.get(field.getJavaType());
         if (field.isRepeated()) {
             IntegerRangeRandomizer collectionSizeRandomizer = new IntegerRangeRandomizer(
-                    parameters.getCollectionSizeRange().getMin(),
-                    parameters.getCollectionSizeRange().getMax(),
-                    easyRandom.nextLong()
+                parameters.getCollectionSizeRange().getMin(),
+                parameters.getCollectionSizeRange().getMax(),
+                easyRandom.nextLong()
             );
             for (int i = 0; i < collectionSizeRandomizer.getRandomValue(); i++) {
                 containingBuilder.addRepeatedField(field, generator.apply(field, containingBuilder));
@@ -121,7 +129,7 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         int fieldCount = oneofDescriptor.getFieldCount();
         int oneofCase = easyRandom.nextInt(fieldCount);
         FieldDescriptor selectedCase = oneofDescriptor.getField(oneofCase);
-        populateField(selectedCase,builder);
+        populateField(selectedCase, builder);
     }
 
     private EnumValueDescriptor getRandomEnumValue(EnumDescriptor enumDescriptor) {
@@ -133,5 +141,4 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
     public String toString() {
         return this.getClass().getSimpleName();
     }
-
 }
