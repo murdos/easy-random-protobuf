@@ -80,9 +80,11 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         Builder builder = defaultInstance.newBuilderForType();
         Descriptor descriptor = builder.getDescriptorForType();
         List<Descriptors.OneofDescriptor> oneofs = descriptor.getOneofs();
-        List<FieldDescriptor> plainFields = descriptor.getFields().stream().filter(field-> field.getContainingOneof() == null).collect(Collectors.toList());
-        for (FieldDescriptor field : plainFields) {
-            populateField(field, builder);
+        List<FieldDescriptor> plainFields = descriptor.getFields().stream()
+                .filter(field-> field.getContainingOneof() == null)
+                .collect(Collectors.toList());
+        for (FieldDescriptor fieldDescriptor : plainFields) {
+            populateField(fieldDescriptor, builder);
         }
         for (Descriptors.OneofDescriptor oneofDescriptor : oneofs) {
             populateOneof(oneofDescriptor, builder);

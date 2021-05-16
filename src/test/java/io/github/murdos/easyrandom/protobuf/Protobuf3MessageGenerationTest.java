@@ -119,7 +119,7 @@ class Protobuf3MessageGenerationTest {
     }
 
     @Test
-    void shouldGenerateDifferentObject() {
+    void shouldSequentiallyGenerateDifferentObjects() {
         EasyRandomParameters parameters = new EasyRandomParameters()
                 .seed(123L)
                 .collectionSizeRange(3, 10);
