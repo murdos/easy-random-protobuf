@@ -24,11 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
+      - name: Set up Node
+        uses: actions/setup-node@v2.1.5
         with:
-          java-version: 8
-          distribution: 'adopt'
+          node-version: '14'
 
       - name: Cache local Maven repository
         uses: actions/cache@v2.1.4
