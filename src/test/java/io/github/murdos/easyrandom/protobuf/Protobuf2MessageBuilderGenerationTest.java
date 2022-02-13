@@ -15,10 +15,12 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import static io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum.FOURTH_VALUE;
+import static io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum.THIRD_VALUE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.protobuf.StringValue;
-import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum;
+import io.github.murdos.easyrandom.protobuf.testing.proto2.EmbeddedProto2Message;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
@@ -83,7 +85,7 @@ class Protobuf2MessageBuilderGenerationTest {
                 -67
             );
 
-        assertThat(protoBuilderInstance.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
+        assertThat(protoBuilderInstance.getEnumField()).isEqualTo(THIRD_VALUE);
         assertThat(protoBuilderInstance.getStringValueField())
             .isNotNull()
             .extracting(StringValue::getValue)
@@ -96,10 +98,44 @@ class Protobuf2MessageBuilderGenerationTest {
             .satisfies(
                 embeddedMessage -> {
                     assertThat(embeddedMessage.getStringField()).isEqualTo("LRHCsQ");
-                    assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto2Enum.THIRD_VALUE);
+                    assertThat(embeddedMessage.getEnumField()).isEqualTo(THIRD_VALUE);
                 }
             );
         assertThat(protoBuilderInstance.getOneofFieldCase().getNumber())
             .isNotEqualTo(Proto2Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
+        assertThat(protoBuilderInstance.getMapFieldMap())
+            .hasSize(4)
+            .containsEntry(
+                "FcoiXCbvfaJXRzsMllsopqaJh",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("GisTfiLZvBZTpZtlTy")
+                    .setEnumField(THIRD_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "YBTARDDDrSwFSHmNX",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX")
+                    .setEnumField(FOURTH_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("DaHxoNoJueuCTktIqEOZK")
+                    .setEnumField(FOURTH_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "nNRZPqiaU",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("BQyytJgfXzAVTafnmwmsoZGvUFspz")
+                    .setEnumField(THIRD_VALUE)
+                    .build()
+            );
     }
 }

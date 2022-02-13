@@ -99,7 +99,13 @@ class Protobuf3MessageBuilderGenerationTest {
                     assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.UNKNOWN);
                 }
             );
-        assertThat(protoBuilderInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.THIRDCHOICE);
+        assertThat(protoBuilderInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.FIRSTCHOICE);
+        assertThat(protoBuilderInstance.getMapFieldMap())
+            .hasSize(4)
+            .containsEntry("Txwpix", Proto3Enum.FIRST_VALUE)
+            .containsEntry("nNRZPqiaU", Proto3Enum.FIRST_VALUE)
+            .containsEntry("vhuYKRd", Proto3Enum.FIRST_VALUE)
+            .containsEntry("YBTARDDDrSwFSHmNX", Proto3Enum.FIRST_VALUE);
     }
 
     @Test
@@ -138,5 +144,6 @@ class Protobuf3MessageBuilderGenerationTest {
                         .isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
                 }
             );
+        assertThat(firstInstance.getMapFieldMap()).isNotEqualTo(secondInstance.getMapFieldMap());
     }
 }

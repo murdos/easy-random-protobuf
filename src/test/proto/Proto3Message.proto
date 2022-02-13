@@ -28,6 +28,7 @@ message Proto3Message {
   google.protobuf.StringValue stringValueField = 17;
   repeated string repeatedStringField = 18;
   EmbeddedProto3Message embeddedMessage = 19;
+  map<string, Proto3Enum> mapField = 20;
 
   oneof oneofField {
     double firstChoice = 30;
