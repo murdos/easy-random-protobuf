@@ -109,7 +109,20 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
     }
 
     private void populateField(FieldDescriptor field, Builder containingBuilder) {
-        BiFunction<FieldDescriptor, Builder, Object> generator = this.fieldGenerators.get(field.getJavaType());
+        BiFunction<FieldDescriptor, Builder, Object> fieldGenerator;
+        if (field.isMapField()) {
+            fieldGenerator =
+                (fieldDescriptor, parentBuilder) -> {
+                    Builder mapEntryBuilder = parentBuilder.newBuilderForField(fieldDescriptor);
+                    for (FieldDescriptor subField : fieldDescriptor.getMessageType().getFields()) {
+                        populateField(subField, mapEntryBuilder);
+                    }
+                    return mapEntryBuilder.build();
+                };
+        } else {
+            fieldGenerator = this.fieldGenerators.get(field.getJavaType());
+        }
+
         if (field.isRepeated()) {
             IntegerRangeRandomizer collectionSizeRandomizer = new IntegerRangeRandomizer(
                 parameters.getCollectionSizeRange().getMin(),
@@ -117,10 +130,10 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
                 easyRandom.nextLong()
             );
             for (int i = 0; i < collectionSizeRandomizer.getRandomValue(); i++) {
-                containingBuilder.addRepeatedField(field, generator.apply(field, containingBuilder));
+                containingBuilder.addRepeatedField(field, fieldGenerator.apply(field, containingBuilder));
             }
         } else {
-            containingBuilder.setField(field, generator.apply(field, containingBuilder));
+            containingBuilder.setField(field, fieldGenerator.apply(field, containingBuilder));
         }
     }
 

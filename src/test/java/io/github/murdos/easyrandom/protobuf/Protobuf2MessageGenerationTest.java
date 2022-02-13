@@ -15,9 +15,12 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import static io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum.FOURTH_VALUE;
+import static io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum.THIRD_VALUE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.protobuf.StringValue;
+import io.github.murdos.easyrandom.protobuf.testing.proto2.EmbeddedProto2Message;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Enum;
 import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
 import org.jeasy.random.EasyRandom;
@@ -98,5 +101,39 @@ class Protobuf2MessageGenerationTest {
             );
         assertThat(protoInstance.getOneofFieldCase().getNumber())
             .isNotEqualTo(Proto2Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
+        assertThat(protoInstance.getMapFieldMap())
+            .hasSize(4)
+            .containsEntry(
+                "FcoiXCbvfaJXRzsMllsopqaJh",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("GisTfiLZvBZTpZtlTy")
+                    .setEnumField(THIRD_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "YBTARDDDrSwFSHmNX",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX")
+                    .setEnumField(FOURTH_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("DaHxoNoJueuCTktIqEOZK")
+                    .setEnumField(FOURTH_VALUE)
+                    .build()
+            )
+            .containsEntry(
+                "nNRZPqiaU",
+                EmbeddedProto2Message
+                    .newBuilder()
+                    .setStringField("BQyytJgfXzAVTafnmwmsoZGvUFspz")
+                    .setEnumField(THIRD_VALUE)
+                    .build()
+            );
     }
 }

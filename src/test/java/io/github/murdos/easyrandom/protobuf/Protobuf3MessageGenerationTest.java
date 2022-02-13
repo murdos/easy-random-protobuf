@@ -60,6 +60,7 @@ class Protobuf3MessageGenerationTest {
                 }
             );
         assertThat(protoInstance.getOneofFieldCase()).isNotEqualTo(Proto3Message.OneofFieldCase.ONEOFFIELD_NOT_SET);
+        assertThat(protoInstance.getMapFieldMap()).isNotEmpty();
     }
 
     @Test
@@ -70,6 +71,7 @@ class Protobuf3MessageGenerationTest {
         Proto3Message protoInstance = easyRandom.nextObject(Proto3Message.class);
 
         assertThat(protoInstance.getRepeatedStringFieldList()).hasSize(3);
+        assertThat(protoInstance.getMapFieldMap()).hasSize(3);
     }
 
     @Test
@@ -142,7 +144,13 @@ class Protobuf3MessageGenerationTest {
                     assertThat(embeddedMessage.getEnumField()).isEqualTo(Proto3Enum.UNKNOWN);
                 }
             );
-        assertThat(protoInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.THIRDCHOICE);
+        assertThat(protoInstance.getOneofFieldCase()).isEqualTo(Proto3Message.OneofFieldCase.FIRSTCHOICE);
+        assertThat(protoInstance.getMapFieldMap())
+            .hasSize(4)
+            .containsEntry("Txwpix", Proto3Enum.FIRST_VALUE)
+            .containsEntry("nNRZPqiaU", Proto3Enum.FIRST_VALUE)
+            .containsEntry("vhuYKRd", Proto3Enum.FIRST_VALUE)
+            .containsEntry("YBTARDDDrSwFSHmNX", Proto3Enum.FIRST_VALUE);
     }
 
     @Test
@@ -181,6 +189,7 @@ class Protobuf3MessageGenerationTest {
                         .isNotEqualTo(secondInstance.getEmbeddedMessage().getStringField());
                 }
             );
+        assertThat(firstInstance.getMapFieldMap()).isNotEqualTo(secondInstance.getMapFieldMap());
     }
 
     @Test
