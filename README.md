@@ -12,7 +12,7 @@ Extension for [Easy Random library](https://github.com/j-easy/easy-random) addin
 <dependency>
     <groupId>io.github.murdos</groupId>
     <artifactId>easy-random-protobuf</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 
