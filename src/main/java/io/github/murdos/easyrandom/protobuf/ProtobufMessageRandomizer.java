@@ -82,10 +82,8 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
 
     @Override
     public Message getRandomValue() {
-        Message defaultInstance = instantiateMessage(messageClass);
-        Builder builder = defaultInstance.newBuilderForType();
+        Builder builder = instantiateMessageBuilder(messageClass);
         Descriptor descriptor = builder.getDescriptorForType();
-        List<Descriptors.OneofDescriptor> oneofs = descriptor.getOneofs();
         List<FieldDescriptor> plainFields = descriptor
             .getFields()
             .stream()
@@ -94,16 +92,17 @@ public class ProtobufMessageRandomizer implements Randomizer<Message> {
         for (FieldDescriptor fieldDescriptor : plainFields) {
             populateField(fieldDescriptor, builder);
         }
-        for (Descriptors.OneofDescriptor oneofDescriptor : oneofs) {
+        for (Descriptors.OneofDescriptor oneofDescriptor : descriptor.getOneofs()) {
             populateOneof(oneofDescriptor, builder);
         }
         return builder.build();
     }
 
-    private static Message instantiateMessage(Class<Message> clazz) {
+    private static Message.Builder instantiateMessageBuilder(Class<Message> clazz) {
         try {
             Method getDefaultInstanceMethod = clazz.getMethod("getDefaultInstance");
-            return (Message) getDefaultInstanceMethod.invoke(null);
+            Message message = (Message) getDefaultInstanceMethod.invoke(null);
+            return message.newBuilderForType();
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             throw new IllegalArgumentException(e);
         }
