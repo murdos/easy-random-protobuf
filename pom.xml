@@ -29,7 +29,7 @@
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-license-plugin.version>4.1</maven-license-plugin.version>
-        <spotless-maven-plugin.version>2.11.1</spotless-maven-plugin.version>
+        <spotless-maven-plugin.version>2.24.1</spotless-maven-plugin.version>
         <prettier.version>2.2.1</prettier.version>
         <prettier-java.version>1.0.2</prettier-java.version>
         <!-- plugins used for tests -->
