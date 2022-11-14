@@ -35,7 +35,7 @@
         <!-- plugins used for tests -->
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
-        <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
+        <os-maven-plugin.version>1.7.1</os-maven-plugin.version>
     </properties>
 
     <scm>
