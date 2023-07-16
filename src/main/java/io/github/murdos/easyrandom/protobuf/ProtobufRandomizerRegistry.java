@@ -25,13 +25,13 @@ import org.jeasy.random.api.RandomizerRegistry;
 
 /**
  * A registry of randomizers for Protobuf messages.
- *
  */
 @Priority(-2)
 public class ProtobufRandomizerRegistry implements RandomizerRegistry {
 
-    private EasyRandom easyRandom;
+    private volatile EasyRandom easyRandom;
     private EasyRandomParameters parameters;
+    private final Object lock = new Object();
 
     @Override
     public void init(EasyRandomParameters parameters) {
@@ -47,17 +47,25 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
     @SuppressWarnings("unchecked")
     public Randomizer<?> getRandomizer(Class<?> type) {
         if (Message.class.isAssignableFrom(type)) {
-            if (easyRandom == null) {
-                easyRandom = new EasyRandom(parameters);
-            }
+            initializeEasyRandomIfNull();
+
             return new ProtobufMessageRandomizer((Class<Message>) type, easyRandom, parameters);
         }
         if (Message.Builder.class.isAssignableFrom(type)) {
-            if (easyRandom == null) {
-                easyRandom = new EasyRandom(parameters);
-            }
+            initializeEasyRandomIfNull();
+
             return new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, easyRandom, parameters);
         }
         return null;
+    }
+
+    private void initializeEasyRandomIfNull() {
+        if (easyRandom == null) {
+            synchronized (lock) {
+                if (easyRandom == null) {
+                    easyRandom = new EasyRandom(parameters);
+                }
+            }
+        }
     }
 }
