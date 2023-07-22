@@ -22,20 +22,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v2.1.7
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          node-version: '18'
 
       - name: Configure Git User
         run: |
@@ -46,7 +38,8 @@ jobs:
         uses: actions/setup-java@v2
         with: # running setup-java again overwrites the settings.xml
           java-version: 8
-          distribution: 'adopt'
+          distribution: 'temurin'
+          cache: 'maven'
           server-id: ossrh
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
