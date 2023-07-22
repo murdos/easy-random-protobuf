@@ -17,7 +17,7 @@ package io.github.murdos.easyrandom.protobuf;
 
 import com.google.protobuf.Message;
 import java.lang.reflect.Field;
-import org.jeasy.random.EasyRandom;
+import java.util.concurrent.ConcurrentHashMap;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.annotation.Priority;
 import org.jeasy.random.api.Randomizer;
@@ -31,6 +31,7 @@ import org.jeasy.random.api.RandomizerRegistry;
 public class ProtobufRandomizerRegistry implements RandomizerRegistry {
 
     private EasyRandomParameters parameters;
+    private final ConcurrentHashMap<Class<?>, Randomizer<?>> randomizers = new ConcurrentHashMap<>();
 
     @Override
     public void init(EasyRandomParameters parameters) {
@@ -46,10 +47,15 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
     @SuppressWarnings("unchecked")
     public Randomizer<?> getRandomizer(Class<?> type) {
         if (Message.class.isAssignableFrom(type)) {
-            return new ProtobufMessageRandomizer((Class<Message>) type, parameters);
+            randomizers.putIfAbsent(type, new ProtobufMessageRandomizer((Class<Message>) type, parameters));
+            return randomizers.get(type);
         }
         if (Message.Builder.class.isAssignableFrom(type)) {
-            return new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters);
+            randomizers.putIfAbsent(
+                type,
+                new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters)
+            );
+            return randomizers.get(type);
         }
         return null;
     }

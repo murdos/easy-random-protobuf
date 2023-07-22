@@ -31,7 +31,7 @@
   "mapField": {
     "bWyqZZW": {
       "stringField": "VHDVUmbGkUT",
-      "enumField": "FOURTH_VALUE"
+      "enumField": "THIRD_VALUE"
     },
     "nNRZPqiaU": {
       "stringField": "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs",
@@ -39,11 +39,11 @@
     },
     "FcoiXCbvfaJXRzsMllsopqaJh": {
       "stringField": "YBTARDDDrSwFSHmNX",
-      "enumField": "FOURTH_VALUE"
+      "enumField": "THIRD_VALUE"
     },
     "DVyBRHiWPJatSdNzatqkrizSJt": {
       "stringField": "icGCIWconEqfjMkTIXxfQZMbb",
-      "enumField": "FOURTH_VALUE"
+      "enumField": "THIRD_VALUE"
     },
     "mLshLqJDvaJhHaENetorIWXAd": {
       "stringField": "vhiotolLv",
@@ -55,7 +55,7 @@
     },
     "iICUdETo": {
       "stringField": "ophbOzzmYlQLyJkimc",
-      "enumField": "FOURTH_VALUE"
+      "enumField": "THIRD_VALUE"
     }
   },
   "firstChoice": 0.9908988967772393
