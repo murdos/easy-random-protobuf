@@ -19,36 +19,48 @@
   "repeatedStringField": [
     "JxkyvRnL",
     "RYtGKbgicZaHCBRQDSx",
-    "VLhpfQGTMDYpsBZxvfBoeygjb",
-    "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
-    "dpHYZGhtgdntugzvvKAXLhM",
-    "LlN"
+    "VLhpfQGTMDYpsBZxvfBoeygjb"
   ],
   "embeddedMessage": {
-    "stringField": "gNfZBdyFGRajVfJNonEnOinZj",
+    "stringField": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
     "enumField": "FOURTH_VALUE"
   },
   "mapField": {
-    "UfzQhdgLLfDTDGspDb": {
-      "stringField": "QvBQYuxiXXVytGCxzVllpgTJKhRQq",
+    "dpHYZGhtgdntugzvvKAXLhM": {
+      "stringField": "LlN",
       "enumField": "THIRD_VALUE"
     },
-    "qszYL": {
-      "stringField": "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX",
+    "gNfZBdyFGRajVfJNonEnOinZj": {
+      "stringField": "UfzQhdgLLfDTDGspDb",
       "enumField": "FOURTH_VALUE"
     },
-    "sPB": {
-      "stringField": "Oxm",
+    "QvBQYuxiXXVytGCxzVllpgTJKhRQq": {
+      "stringField": "qszYL",
       "enumField": "THIRD_VALUE"
     },
-    "QIn": {
-      "stringField": "yIvpRgmgQsYEKk",
+    "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX": {
+      "stringField": "sPB",
       "enumField": "THIRD_VALUE"
     },
-    "AAAryjCRhLTuhnTodUewZQqaZErU": {
-      "stringField": "aofGvthLoyPLDADYzx",
+    "Oxm": {
+      "stringField": "QIn",
+      "enumField": "FOURTH_VALUE"
+    },
+    "yIvpRgmgQsYEKk": {
+      "stringField": "AAAryjCRhLTuhnTodUewZQqaZErU",
+      "enumField": "FOURTH_VALUE"
+    },
+    "aofGvthLoyPLDADYzx": {
+      "stringField": "WoaMAzEEplqjJ",
+      "enumField": "THIRD_VALUE"
+    },
+    "jNBgpTmxx": {
+      "stringField": "pIoQM",
       "enumField": "FOURTH_VALUE"
     }
   },
-  "firstChoice": 0.9908988967772393
+  "forthChoice": {
+    "stringField": "ODRhfGEfX",
+    "enumField": "FOURTH_VALUE"
+  }
 }

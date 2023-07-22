@@ -19,21 +19,24 @@
   "repeatedStringField": [
     "JxkyvRnL",
     "RYtGKbgicZaHCBRQDSx",
-    "VLhpfQGTMDYpsBZxvfBoeygjb",
-    "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
-    "dpHYZGhtgdntugzvvKAXLhM",
-    "LlN"
+    "VLhpfQGTMDYpsBZxvfBoeygjb"
   ],
   "embeddedMessage": {
-    "stringField": "gNfZBdyFGRajVfJNonEnOinZj",
+    "stringField": "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
     "enumField": "SECOND_VALUE"
   },
   "mapField": {
-    "UfzQhdgLLfDTDGspDb": "SECOND_VALUE",
+    "dpHYZGhtgdntugzvvKAXLhM": "SECOND_VALUE",
+    "LlN": "SECOND_VALUE",
+    "gNfZBdyFGRajVfJNonEnOinZj": "SECOND_VALUE",
+    "UfzQhdgLLfDTDGspDb": "UNKNOWN",
     "QvBQYuxiXXVytGCxzVllpgTJKhRQq": "SECOND_VALUE",
-    "qszYL": "SECOND_VALUE",
-    "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX": "UNKNOWN",
+    "qszYL": "UNKNOWN",
+    "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX": "FIRST_VALUE",
     "sPB": "SECOND_VALUE"
   },
-  "thirdChoice": "FIRST_VALUE"
+  "forthChoice": {
+    "stringField": "Oxm",
+    "enumField": "SECOND_VALUE"
+  }
 }
