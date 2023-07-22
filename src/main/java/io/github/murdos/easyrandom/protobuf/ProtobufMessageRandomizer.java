@@ -17,9 +17,9 @@ package io.github.murdos.easyrandom.protobuf;
 
 import static com.google.protobuf.Descriptors.FieldDescriptor.JavaType.*;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Descriptors.Descriptor;
-import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor.JavaType;
@@ -30,13 +30,12 @@ import java.lang.reflect.Method;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiFunction;
+
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.api.ContextAwareRandomizer;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerContext;
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
-import org.jeasy.random.randomizers.text.StringRandomizer;
 
 /**
  * Generate a random Protobuf {@link Message}.
@@ -44,7 +43,7 @@ import org.jeasy.random.randomizers.text.StringRandomizer;
 public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message> {
 
     private final Class<Message> messageClass;
-    private final EnumMap<JavaType, BiFunction<FieldDescriptor, Builder, Object>> fieldGenerators;
+    private final EnumMap<JavaType, ProtobufValueGenerator> fieldGenerators = new EnumMap<>(JavaType.class);
     private final Random random;
     private RandomizerContext randomizerContext;
 
@@ -52,39 +51,32 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
         this.messageClass = messageClass;
         this.random = new Random(parameters.getSeed());
 
-        this.fieldGenerators = new EnumMap<>(JavaType.class);
-        this.fieldGenerators.put(INT, generatorForType(int.class));
-        this.fieldGenerators.put(LONG, generatorForType(long.class));
-        this.fieldGenerators.put(FLOAT, generatorForType(float.class));
-        this.fieldGenerators.put(DOUBLE, generatorForType(double.class));
-        this.fieldGenerators.put(BOOLEAN, generatorForType(boolean.class));
-        this.fieldGenerators.put(STRING, generatorForString());
-        this.fieldGenerators.put(BYTE_STRING, generatorForByteString());
-        this.fieldGenerators.put(ENUM, (field, containingBuilder) -> getRandomEnumValue(field.getEnumType()));
-        this.fieldGenerators.put(MESSAGE, generatorForMessage());
+        this.fieldGenerators.put(INT, generatorForBasicType(int.class));
+        this.fieldGenerators.put(LONG, generatorForBasicType(long.class));
+        this.fieldGenerators.put(FLOAT, generatorForBasicType(float.class));
+        this.fieldGenerators.put(DOUBLE, generatorForBasicType(double.class));
+        this.fieldGenerators.put(BOOLEAN, generatorForBasicType(boolean.class));
+        this.fieldGenerators.put(STRING, generatorForBasicType(String.class));
+        this.fieldGenerators.put(BYTE_STRING, generatorForBasicType(ByteString.class));
+        this.fieldGenerators.put(ENUM, generatorForEnum());
+        this.fieldGenerators.put(MESSAGE, generatorForProtoMessage());
     }
 
-    private BiFunction<FieldDescriptor, Builder, Object> generatorForMessage() {
-        return (field, containingBuilder) ->
-            getRandomValueForType(containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass());
-    }
-
-    private BiFunction<FieldDescriptor, Builder, Object> generatorForByteString() {
-        return (field, containingBuilder) ->
-            new ByteStringRandomizer(getRandomValueForType(long.class)).getRandomValue();
-    }
-
-    private BiFunction<FieldDescriptor, Builder, Object> generatorForString() {
-        return (field, containingBuilder) -> new StringRandomizer(getRandomValueForType(long.class)).getRandomValue();
-    }
-
-    private <T> BiFunction<FieldDescriptor, Builder, Object> generatorForType(Class<T> type) {
+    private <T> ProtobufValueGenerator generatorForBasicType(Class<T> type) {
         return (field, containingBuilder) -> getRandomValueForType(type);
     }
 
-    @Override
-    public void setRandomizerContext(RandomizerContext randomizerContext) {
-        this.randomizerContext = randomizerContext;
+    private ProtobufValueGenerator generatorForEnum() {
+        return (field, containingBuilder) -> {
+            List<EnumValueDescriptor> values = field.getEnumType().getValues();
+            int choice = random.nextInt(values.size());
+            return values.get(choice);
+        };
+    }
+
+    private ProtobufValueGenerator generatorForProtoMessage() {
+        return (field, containingBuilder) ->
+                getRandomValueForType(containingBuilder.newBuilderForField(field).getDefaultInstanceForType().getClass());
     }
 
     private <T> T getRandomValueForType(Class<T> type) {
@@ -97,6 +89,11 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
 
     private <T> Randomizer<T> getRandomizerForType(Class<T> type) {
         return getEasyRandomParameters().getRandomizerProvider().getRandomizerByType(type, randomizerContext);
+    }
+
+    @Override
+    public void setRandomizerContext(RandomizerContext randomizerContext) {
+        this.randomizerContext = randomizerContext;
     }
 
     @Override
@@ -128,7 +125,7 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
     }
 
     private void populateField(FieldDescriptor field, Builder containingBuilder) {
-        BiFunction<FieldDescriptor, Builder, Object> fieldGenerator;
+        ProtobufValueGenerator fieldGenerator;
         if (field.isMapField()) {
             fieldGenerator =
                 (fieldDescriptor, parentBuilder) -> {
@@ -149,10 +146,10 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
                 getRandomValueForType(long.class)
             );
             for (int i = 0; i < collectionSizeRandomizer.getRandomValue(); i++) {
-                containingBuilder.addRepeatedField(field, fieldGenerator.apply(field, containingBuilder));
+                containingBuilder.addRepeatedField(field, fieldGenerator.generateFor(field, containingBuilder));
             }
         } else {
-            containingBuilder.setField(field, fieldGenerator.apply(field, containingBuilder));
+            containingBuilder.setField(field, fieldGenerator.generateFor(field, containingBuilder));
         }
     }
 
@@ -165,12 +162,6 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
         int oneofCase = random.nextInt(fieldCount);
         FieldDescriptor selectedCase = oneofDescriptor.getField(oneofCase);
         populateField(selectedCase, builder);
-    }
-
-    private EnumValueDescriptor getRandomEnumValue(EnumDescriptor enumDescriptor) {
-        List<EnumValueDescriptor> values = enumDescriptor.getValues();
-        int choice = random.nextInt(values.size());
-        return values.get(choice);
     }
 
     public String toString() {
