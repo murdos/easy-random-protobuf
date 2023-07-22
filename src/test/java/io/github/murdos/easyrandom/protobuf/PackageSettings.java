@@ -15,20 +15,12 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
-import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
-import org.junit.jupiter.api.Test;
+/**
+ * Configuration of Approval tests
+ * @see <a href="https://github.com/approvals/ApprovalTests.Java/blob/master/approvaltests/docs/Configuration.md#package-level-settings">Package Level Settings</a>
+ */
+public final class PackageSettings {
 
-class Protobuf2MessageGenerationTest {
-
-    @Test
-    void shouldGenerateTheSameValueForTheSameSeed() {
-        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L).collectionSizeRange(3, 10);
-        EasyRandom easyRandom = new EasyRandom(parameters);
-
-        Proto2Message protoInstance = easyRandom.nextObject(Proto2Message.class);
-
-        ProtobufApprovals.verifyAsJson(protoInstance);
-    }
+    // Permet d'enregistrer les fichiers snapshots dans le dossier des ressources
+    public static String ApprovalBaseDirectory = "../resources";
 }
