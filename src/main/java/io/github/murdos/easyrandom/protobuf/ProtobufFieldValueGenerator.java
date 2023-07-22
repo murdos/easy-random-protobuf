@@ -19,7 +19,6 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 
 @FunctionalInterface
-interface ProtobufValueGenerator {
-
+interface ProtobufFieldValueGenerator {
     Object generateFor(Descriptors.FieldDescriptor fieldDescriptor, Message.Builder parentMessageBuilder);
 }
