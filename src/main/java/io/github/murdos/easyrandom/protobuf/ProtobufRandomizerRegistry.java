@@ -15,6 +15,7 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import java.lang.reflect.Field;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,6 +47,10 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
     @Override
     @SuppressWarnings("unchecked")
     public Randomizer<?> getRandomizer(Class<?> type) {
+        if (ByteString.class.isAssignableFrom(type)) {
+            randomizers.putIfAbsent(type, new ByteStringRandomizer(parameters.getSeed()));
+            return randomizers.get(type);
+        }
         if (Message.class.isAssignableFrom(type)) {
             randomizers.putIfAbsent(type, new ProtobufMessageRandomizer((Class<Message>) type, parameters));
             return randomizers.get(type);

@@ -12,50 +12,42 @@
   "sfixed32Field": 1087885590,
   "sfixed64Field": "-3581075550420886390",
   "boolField": true,
-  "stringField": "wfysMorQydIqGYRUlpQKiThs",
-  "bytesField": "x6rbSQCEiG0CRP7T1lpy5ztzPdBQp2Nc17Ky67pCh2o\u003d",
+  "stringField": "eOMtThyhVNLWUZNRcBaQKxI",
+  "bytesField": "3fEhuZUEvDzRjKv9qvAzTRbR10AyJvqSRVfamzoPRkI\u003d",
   "enumField": "FOURTH_VALUE",
-  "stringValueField": "DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX",
+  "stringValueField": "yedUsFwdkelQbxeTeQOvaScfqIOOmaa",
   "repeatedStringField": [
-    "uqeR",
-    "xeALpCKsidonlgHXijBfJedQ",
-    "dIJOUAsmsiT",
-    "nXUgIOWlHgQsd",
-    "AJVH",
-    "WuGaTPB"
+    "JxkyvRnL",
+    "RYtGKbgicZaHCBRQDSx",
+    "VLhpfQGTMDYpsBZxvfBoeygjb",
+    "UMaAIKKIkknjWEXJUfPxxQHeWKEJ",
+    "dpHYZGhtgdntugzvvKAXLhM",
+    "LlN"
   ],
   "embeddedMessage": {
-    "stringField": "NuGSIFWDPVPqKClkqNpxLIRO",
+    "stringField": "gNfZBdyFGRajVfJNonEnOinZj",
     "enumField": "FOURTH_VALUE"
   },
   "mapField": {
-    "bWyqZZW": {
-      "stringField": "VHDVUmbGkUT",
+    "UfzQhdgLLfDTDGspDb": {
+      "stringField": "QvBQYuxiXXVytGCxzVllpgTJKhRQq",
       "enumField": "THIRD_VALUE"
     },
-    "nNRZPqiaU": {
-      "stringField": "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs",
+    "qszYL": {
+      "stringField": "YdvDhtAsLghPXAgtbprXPZkhnfLTBSX",
       "enumField": "FOURTH_VALUE"
     },
-    "FcoiXCbvfaJXRzsMllsopqaJh": {
-      "stringField": "YBTARDDDrSwFSHmNX",
+    "sPB": {
+      "stringField": "Oxm",
       "enumField": "THIRD_VALUE"
     },
-    "DVyBRHiWPJatSdNzatqkrizSJt": {
-      "stringField": "icGCIWconEqfjMkTIXxfQZMbb",
+    "QIn": {
+      "stringField": "yIvpRgmgQsYEKk",
       "enumField": "THIRD_VALUE"
     },
-    "mLshLqJDvaJhHaENetorIWXAd": {
-      "stringField": "vhiotolLv",
+    "AAAryjCRhLTuhnTodUewZQqaZErU": {
+      "stringField": "aofGvthLoyPLDADYzx",
       "enumField": "FOURTH_VALUE"
-    },
-    "paSSutMq": {
-      "stringField": "XGuNCDmWzZRRlKaKmBWdDVYUKNmkE",
-      "enumField": "FOURTH_VALUE"
-    },
-    "iICUdETo": {
-      "stringField": "ophbOzzmYlQLyJkimc",
-      "enumField": "THIRD_VALUE"
     }
   },
   "firstChoice": 0.9908988967772393
