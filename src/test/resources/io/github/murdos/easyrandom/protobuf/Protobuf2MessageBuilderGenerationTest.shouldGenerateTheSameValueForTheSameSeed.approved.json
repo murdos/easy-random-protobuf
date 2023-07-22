@@ -1,0 +1,49 @@
+{
+  "doubleField": 0.7231742029971469,
+  "floatField": 0.99089885,
+  "int32Field": 1295249578,
+  "int64Field": "4672433029010564658",
+  "uint32Field": 2614777669,
+  "uint64Field": "4775521195821725379",
+  "sint32Field": -1621910390,
+  "sint64Field": "-2298228485105199876",
+  "fixed32Field": 3075404944,
+  "fixed64Field": "2992351518418085755",
+  "sfixed32Field": -1366603797,
+  "sfixed64Field": "-3758321679654915806",
+  "boolField": true,
+  "stringField": "wSxRIexQAaxVLAiN",
+  "bytesField": "NXJPPPLdMmF0ayk12eRyT5Fi8vWfZupTgmiUxZ9dhr0\u003d",
+  "enumField": "THIRD_VALUE",
+  "stringValueField": "tg",
+  "repeatedStringField": [
+    "AJVH",
+    "WuGaTPB",
+    "NuGSIFWDPVPqKClkqNpxLIRO",
+    "jukCwoSTgRGMwWnAeflhVmclqMX",
+    "bWyqZZW"
+  ],
+  "embeddedMessage": {
+    "stringField": "LRHCsQ",
+    "enumField": "THIRD_VALUE"
+  },
+  "mapField": {
+    "nNRZPqiaU": {
+      "stringField": "BQyytJgfXzAVTafnmwmsoZGvUFspz",
+      "enumField": "THIRD_VALUE"
+    },
+    "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs": {
+      "stringField": "DaHxoNoJueuCTktIqEOZK",
+      "enumField": "FOURTH_VALUE"
+    },
+    "FcoiXCbvfaJXRzsMllsopqaJh": {
+      "stringField": "GisTfiLZvBZTpZtlTy",
+      "enumField": "THIRD_VALUE"
+    },
+    "YBTARDDDrSwFSHmNX": {
+      "stringField": "DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX",
+      "enumField": "FOURTH_VALUE"
+    }
+  },
+  "secondChoice": "vhuYKRd"
+}

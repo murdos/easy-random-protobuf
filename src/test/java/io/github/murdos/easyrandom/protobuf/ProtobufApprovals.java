@@ -15,20 +15,24 @@
  */
 package io.github.murdos.easyrandom.protobuf;
 
-import io.github.murdos.easyrandom.protobuf.testing.proto2.Proto2Message;
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
-import org.junit.jupiter.api.Test;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.util.JsonFormat;
+import org.approvaltests.JsonApprovals;
 
-class Protobuf2MessageGenerationTest {
+public final class ProtobufApprovals {
 
-    @Test
-    void shouldGenerateTheSameValueForTheSameSeed() {
-        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L).collectionSizeRange(3, 10);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+    private ProtobufApprovals() {}
 
-        Proto2Message protoInstance = easyRandom.nextObject(Proto2Message.class);
+    public static void verifyAsJson(Message.Builder messageBuilder) {
+        verifyAsJson(messageBuilder.build());
+    }
 
-        ProtobufApprovals.verifyAsJson(protoInstance);
+    public static void verifyAsJson(Message message) {
+        try {
+            JsonApprovals.verifyJson(JsonFormat.printer().print(message));
+        } catch (InvalidProtocolBufferException e) {
+            throw new AssertionError(e);
+        }
     }
 }

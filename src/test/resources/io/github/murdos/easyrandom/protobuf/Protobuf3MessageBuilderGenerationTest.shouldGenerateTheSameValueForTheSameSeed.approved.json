@@ -1,0 +1,36 @@
+{
+  "doubleField": 0.7231742029971469,
+  "floatField": 0.99089885,
+  "int32Field": 1295249578,
+  "int64Field": "4672433029010564658",
+  "uint32Field": 2614777669,
+  "uint64Field": "4775521195821725379",
+  "sint32Field": -1621910390,
+  "sint64Field": "-2298228485105199876",
+  "fixed32Field": 3075404944,
+  "fixed64Field": "2992351518418085755",
+  "sfixed32Field": -1366603797,
+  "sfixed64Field": "-3758321679654915806",
+  "boolField": true,
+  "stringField": "wSxRIexQAaxVLAiN",
+  "bytesField": "NXJPPPLdMmF0ayk12eRyT5Fi8vWfZupTgmiUxZ9dhr0\u003d",
+  "enumField": "SECOND_VALUE",
+  "stringValueField": "tg",
+  "repeatedStringField": [
+    "AJVH",
+    "WuGaTPB",
+    "NuGSIFWDPVPqKClkqNpxLIRO",
+    "jukCwoSTgRGMwWnAeflhVmclqMX",
+    "bWyqZZW"
+  ],
+  "embeddedMessage": {
+    "stringField": "LRHCsQ"
+  },
+  "mapField": {
+    "nNRZPqiaU": "FIRST_VALUE",
+    "Txwpix": "FIRST_VALUE",
+    "YBTARDDDrSwFSHmNX": "FIRST_VALUE",
+    "vhuYKRd": "FIRST_VALUE"
+  },
+  "firstChoice": 0.47687968036848527
+}
