@@ -30,7 +30,6 @@ import org.jeasy.random.api.RandomizerRegistry;
 @Priority(-2)
 public class ProtobufRandomizerRegistry implements RandomizerRegistry {
 
-    private EasyRandom easyRandom;
     private EasyRandomParameters parameters;
 
     @Override
@@ -47,16 +46,10 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
     @SuppressWarnings("unchecked")
     public Randomizer<?> getRandomizer(Class<?> type) {
         if (Message.class.isAssignableFrom(type)) {
-            if (easyRandom == null) {
-                easyRandom = new EasyRandom(parameters);
-            }
-            return new ProtobufMessageRandomizer((Class<Message>) type, easyRandom, parameters);
+            return new ProtobufMessageRandomizer((Class<Message>) type, parameters);
         }
         if (Message.Builder.class.isAssignableFrom(type)) {
-            if (easyRandom == null) {
-                easyRandom = new EasyRandom(parameters);
-            }
-            return new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, easyRandom, parameters);
+            return new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters);
         }
         return null;
     }

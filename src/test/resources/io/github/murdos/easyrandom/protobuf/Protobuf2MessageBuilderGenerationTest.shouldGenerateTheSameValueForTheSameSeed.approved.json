@@ -1,49 +1,62 @@
 {
   "doubleField": 0.7231742029971469,
-  "floatField": 0.99089885,
-  "int32Field": 1295249578,
-  "int64Field": "4672433029010564658",
-  "uint32Field": 2614777669,
-  "uint64Field": "4775521195821725379",
-  "sint32Field": -1621910390,
-  "sint64Field": "-2298228485105199876",
-  "fixed32Field": 3075404944,
-  "fixed64Field": "2992351518418085755",
-  "sfixed32Field": -1366603797,
-  "sfixed64Field": "-3758321679654915806",
+  "floatField": 0.72317415,
+  "int32Field": -1188957731,
+  "int64Field": "-5106534569952410475",
+  "uint32Field": 1018954901,
+  "uint64Field": "18278858343184593066",
+  "sint32Field": -39088943,
+  "sint64Field": "4672433029010564658",
+  "fixed32Field": 1295249578,
+  "fixed64Field": "11230384575778000698",
+  "sfixed32Field": 1087885590,
+  "sfixed64Field": "-3581075550420886390",
   "boolField": true,
-  "stringField": "wSxRIexQAaxVLAiN",
-  "bytesField": "NXJPPPLdMmF0ayk12eRyT5Fi8vWfZupTgmiUxZ9dhr0\u003d",
-  "enumField": "THIRD_VALUE",
-  "stringValueField": "tg",
+  "stringField": "wfysMorQydIqGYRUlpQKiThs",
+  "bytesField": "x6rbSQCEiG0CRP7T1lpy5ztzPdBQp2Nc17Ky67pCh2o\u003d",
+  "enumField": "FOURTH_VALUE",
+  "stringValueField": "DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX",
   "repeatedStringField": [
+    "uqeR",
+    "xeALpCKsidonlgHXijBfJedQ",
+    "dIJOUAsmsiT",
+    "nXUgIOWlHgQsd",
     "AJVH",
-    "WuGaTPB",
-    "NuGSIFWDPVPqKClkqNpxLIRO",
-    "jukCwoSTgRGMwWnAeflhVmclqMX",
-    "bWyqZZW"
+    "WuGaTPB"
   ],
   "embeddedMessage": {
-    "stringField": "LRHCsQ",
-    "enumField": "THIRD_VALUE"
+    "stringField": "NuGSIFWDPVPqKClkqNpxLIRO",
+    "enumField": "FOURTH_VALUE"
   },
   "mapField": {
-    "nNRZPqiaU": {
-      "stringField": "BQyytJgfXzAVTafnmwmsoZGvUFspz",
-      "enumField": "THIRD_VALUE"
+    "bWyqZZW": {
+      "stringField": "VHDVUmbGkUT",
+      "enumField": "FOURTH_VALUE"
     },
-    "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs": {
-      "stringField": "DaHxoNoJueuCTktIqEOZK",
+    "nNRZPqiaU": {
+      "stringField": "mHKUfYwqKVzveNwvtrIpEXTGHGRQJNs",
       "enumField": "FOURTH_VALUE"
     },
     "FcoiXCbvfaJXRzsMllsopqaJh": {
-      "stringField": "GisTfiLZvBZTpZtlTy",
-      "enumField": "THIRD_VALUE"
+      "stringField": "YBTARDDDrSwFSHmNX",
+      "enumField": "FOURTH_VALUE"
     },
-    "YBTARDDDrSwFSHmNX": {
-      "stringField": "DLdnQAjfMAMqWBbmdqFVGBNAsVMBZX",
+    "DVyBRHiWPJatSdNzatqkrizSJt": {
+      "stringField": "icGCIWconEqfjMkTIXxfQZMbb",
+      "enumField": "FOURTH_VALUE"
+    },
+    "mLshLqJDvaJhHaENetorIWXAd": {
+      "stringField": "vhiotolLv",
+      "enumField": "FOURTH_VALUE"
+    },
+    "paSSutMq": {
+      "stringField": "XGuNCDmWzZRRlKaKmBWdDVYUKNmkE",
+      "enumField": "FOURTH_VALUE"
+    },
+    "iICUdETo": {
+      "stringField": "ophbOzzmYlQLyJkimc",
       "enumField": "FOURTH_VALUE"
     }
   },
-  "secondChoice": "vhuYKRd"
+  "firstChoice": 0.9908988967772393
 }

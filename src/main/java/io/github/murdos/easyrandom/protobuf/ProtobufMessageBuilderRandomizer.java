@@ -16,28 +16,29 @@
 package io.github.murdos.easyrandom.protobuf;
 
 import com.google.protobuf.Message;
-import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.api.ContextAwareRandomizer;
 import org.jeasy.random.api.Randomizer;
+import org.jeasy.random.api.RandomizerContext;
 
 /**
  * Generate a random Protobuf {@link Message.Builder}.
  */
-public class ProtobufMessageBuilderRandomizer implements Randomizer<Message.Builder> {
+public class ProtobufMessageBuilderRandomizer implements ContextAwareRandomizer<Message.Builder> {
 
     private final ProtobufMessageRandomizer protobufMessageRandomizer;
 
     public ProtobufMessageBuilderRandomizer(
         Class<Message.Builder> messageBuilderClass,
-        EasyRandom easyRandom,
         EasyRandomParameters parameters
     ) {
         this.protobufMessageRandomizer =
-            new ProtobufMessageRandomizer(
-                retrieveMessageClassFromBuilderClass(messageBuilderClass),
-                easyRandom,
-                parameters
-            );
+            new ProtobufMessageRandomizer(retrieveMessageClassFromBuilderClass(messageBuilderClass), parameters);
+    }
+
+    @Override
+    public void setRandomizerContext(RandomizerContext randomizerContext) {
+        this.protobufMessageRandomizer.setRandomizerContext(randomizerContext);
     }
 
     @SuppressWarnings("unchecked")
