@@ -35,25 +35,3 @@ jobs:
 
       - name: Build with Maven
         run: mvn -ntp --batch-mode clean verify -P continuous-integration
-
-  #--------------------------------------------------
-  # Dependabot auto merge PR
-  #--------------------------------------------------
-  dependabot-auto-merge:
-    name: dependabot-auto-merge
-    needs: [build]
-    permissions:
-      pull-requests: write
-      contents: write
-    runs-on: ubuntu-latest
-    if: ${{ github.repository == 'murdos/easy-random-protobuf' && github.ref != 'refs/heads/main' && github.event.pull_request.user.login == 'dependabot[bot]' }}
-    steps:
-      - name: Dependabot metadata
-        id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.6.0
-      - name: Enable auto-merge for Dependabot PRs
-        if: ${{ steps.dependabot-metadata.outputs.update-type != 'version-update:semver-major' }}
-        run: gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
