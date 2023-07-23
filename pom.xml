@@ -4,7 +4,7 @@
 
     <groupId>io.github.murdos</groupId>
     <artifactId>easy-random-protobuf</artifactId>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
 
     <name>Easy Random ProtoBuf support</name>
 
