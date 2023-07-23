@@ -1,24 +1,13 @@
-name: Release
+name: Publish Snapshots
 
 on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: "The branch to checkout when cutting the release."
-        required: true
-        default: "main"
-      releaseVersion:
-        description: "Default version to use when preparing a release."
-        required: true
-        default: "X.Y.Z"
-      developmentVersion:
-        description: "Default version to use for new local working copy."
-        required: true
-        default: "X.Y.Z-SNAPSHOT"
+  push:
+    branches:
+      - 'main'
 
 jobs:
   release:
-    name: Release on Sonatype OSS
+    name: Publish snapshots on Sonatype OSS
     runs-on: ubuntu-latest
 
     steps:
@@ -46,8 +35,8 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Prepare and perform release
-        run: mvn release:prepare release:perform -ntp --batch-mode -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+      - name: Build and publish
+        run: mvn deploy -ntp --batch-mode -P release
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
