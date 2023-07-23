@@ -19,6 +19,7 @@ on:
 jobs:
   release:
     name: Release on Sonatype OSS
+    if: github.repository == 'murdos/easy-random-protobuf'
     runs-on: ubuntu-latest
 
     steps:

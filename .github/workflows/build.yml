@@ -1,4 +1,7 @@
 name: Continuous Integration
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || (github.ref == 'refs/heads/main' && github.sha) || github.ref }}
+  cancel-in-progress: true
 
 on:
   push:
