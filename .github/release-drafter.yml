@@ -2,3 +2,21 @@ template: |
   ## What’s Changed
 
   $CHANGES
+
+change-template: '- $TITLE - [#$NUMBER]($URL) by @$AUTHOR'
+categories:
+  - title: ⭐ Important fixes and improvements
+    labels:
+      - 'important'
+  - title: 💎 Enhancements
+    labels:
+      - 'enhancement'
+  - title: 🐞 Bug Fixes
+    labels:
+      - 'bug'
+  - title: 🔨 Refactoring
+    labels:
+      - 'internal'
+      - 'github_actions'
+  - title: 📦 Dependency updates
+    label: 'dependencies'
