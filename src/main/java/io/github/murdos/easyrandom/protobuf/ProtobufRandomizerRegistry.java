@@ -48,19 +48,19 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
     @SuppressWarnings("unchecked")
     public Randomizer<?> getRandomizer(Class<?> type) {
         if (ByteString.class.isAssignableFrom(type)) {
-            randomizers.putIfAbsent(type, new ByteStringRandomizer(parameters.getSeed()));
-            return randomizers.get(type);
+            return randomizers.computeIfAbsent(type, clazz -> new ByteStringRandomizer(parameters.getSeed()));
         }
         if (Message.class.isAssignableFrom(type)) {
-            randomizers.putIfAbsent(type, new ProtobufMessageRandomizer((Class<Message>) type, parameters));
-            return randomizers.get(type);
+            return randomizers.computeIfAbsent(
+                type,
+                clazz -> new ProtobufMessageRandomizer((Class<Message>) type, parameters)
+            );
         }
         if (Message.Builder.class.isAssignableFrom(type)) {
-            randomizers.putIfAbsent(
+            return randomizers.computeIfAbsent(
                 type,
-                new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters)
+                clazz -> new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters)
             );
-            return randomizers.get(type);
         }
         return null;
     }
