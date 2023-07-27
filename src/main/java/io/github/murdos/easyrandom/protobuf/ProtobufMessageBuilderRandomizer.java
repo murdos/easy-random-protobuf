@@ -18,7 +18,6 @@ package io.github.murdos.easyrandom.protobuf;
 import com.google.protobuf.Message;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.api.ContextAwareRandomizer;
-import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerContext;
 
 /**
@@ -30,10 +29,15 @@ public class ProtobufMessageBuilderRandomizer implements ContextAwareRandomizer<
 
     public ProtobufMessageBuilderRandomizer(
         Class<Message.Builder> messageBuilderClass,
-        EasyRandomParameters parameters
+        EasyRandomParameters parameters,
+        ProtobufMessageBuilderCache protobufMessageBuilderCache
     ) {
         this.protobufMessageRandomizer =
-            new ProtobufMessageRandomizer(retrieveMessageClassFromBuilderClass(messageBuilderClass), parameters);
+            new ProtobufMessageRandomizer(
+                retrieveMessageClassFromBuilderClass(messageBuilderClass),
+                parameters,
+                protobufMessageBuilderCache
+            );
     }
 
     @Override
