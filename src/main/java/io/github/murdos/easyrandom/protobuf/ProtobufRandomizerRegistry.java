@@ -31,12 +31,14 @@ import org.jeasy.random.api.RandomizerRegistry;
 @Priority(-2)
 public class ProtobufRandomizerRegistry implements RandomizerRegistry {
 
-    private EasyRandomParameters parameters;
     private final ConcurrentHashMap<Class<?>, Randomizer<?>> randomizers = new ConcurrentHashMap<>();
+    private EasyRandomParameters parameters;
+    private ProtobufMessageBuilderCache protobufMessageBuilderCache;
 
     @Override
     public void init(EasyRandomParameters parameters) {
         this.parameters = parameters;
+        this.protobufMessageBuilderCache = new ProtobufMessageBuilderCache(parameters);
     }
 
     @Override
@@ -53,13 +55,18 @@ public class ProtobufRandomizerRegistry implements RandomizerRegistry {
         if (Message.class.isAssignableFrom(type)) {
             return randomizers.computeIfAbsent(
                 type,
-                clazz -> new ProtobufMessageRandomizer((Class<Message>) type, parameters)
+                clazz -> new ProtobufMessageRandomizer((Class<Message>) type, parameters, protobufMessageBuilderCache)
             );
         }
         if (Message.Builder.class.isAssignableFrom(type)) {
             return randomizers.computeIfAbsent(
                 type,
-                clazz -> new ProtobufMessageBuilderRandomizer((Class<Message.Builder>) type, parameters)
+                clazz ->
+                    new ProtobufMessageBuilderRandomizer(
+                        (Class<Message.Builder>) type,
+                        parameters,
+                        protobufMessageBuilderCache
+                    )
             );
         }
         return null;

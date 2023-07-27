@@ -35,13 +35,19 @@ import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
 public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message> {
 
     private final Class<Message> messageClass;
+    private final ProtobufMessageBuilderCache protobufMessageBuilderCache;
     private final ProtobufFieldValueGeneratorProvider fieldGeneratorsProvider;
     private final IntegerRangeRandomizer collectionSizeRandomizer;
     private final Random random;
     private RandomizerContext randomizerContext;
 
-    public ProtobufMessageRandomizer(Class<Message> messageClass, EasyRandomParameters parameters) {
+    public ProtobufMessageRandomizer(
+        Class<Message> messageClass,
+        EasyRandomParameters parameters,
+        ProtobufMessageBuilderCache protobufMessageBuilderCache
+    ) {
         this.messageClass = messageClass;
+        this.protobufMessageBuilderCache = protobufMessageBuilderCache;
         this.random = new Random(parameters.getSeed());
         this.fieldGeneratorsProvider =
             new ProtobufFieldValueGeneratorProvider(parameters.getSeed(), this::getRandomizerContext);
@@ -65,6 +71,13 @@ public class ProtobufMessageRandomizer implements ContextAwareRandomizer<Message
     @Override
     public Message getRandomValue() {
         Builder builder = instantiateMessageBuilder(messageClass);
+        // If the type has been already randomized, return one cached instance to avoid recursion
+        // Builder is used since we need to add a reference to the cache before fully populating the message
+        if (protobufMessageBuilderCache.hasAlreadyRandomizedBuilder(builder.getClass())) {
+            return protobufMessageBuilderCache.getRandomPopulatedMessageBuilder(builder.getClass()).build();
+        } else {
+            protobufMessageBuilderCache.addPopulatedMessageBuilderReference(builder.getClass(), builder);
+        }
         Descriptor descriptor = builder.getDescriptorForType();
         List<FieldDescriptor> plainFields = descriptor
             .getFields()
