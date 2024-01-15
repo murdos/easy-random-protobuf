@@ -34,7 +34,7 @@
         <prettier.version>2.2.1</prettier.version>
         <prettier-java.version>1.0.2</prettier-java.version>
         <!-- plugins used for tests -->
-        <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <os-maven-plugin.version>1.7.1</os-maven-plugin.version>
     </properties>
