@@ -21,7 +21,7 @@
         <easy-random.version>6.0.0-SNAPSHOT</easy-random.version>
         <!-- tests dependencies tools -->
         <junit.version>5.8.2</junit.version>
-        <assertj.version>3.24.2</assertj.version>
+        <assertj.version>3.25.2</assertj.version>
         <approvaltests.version>18.7.1</approvaltests.version>
         <!-- plugins -->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
