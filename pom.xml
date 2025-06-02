@@ -22,7 +22,7 @@
         <!-- tests dependencies tools -->
         <junit.version>5.8.2</junit.version>
         <assertj.version>3.25.2</assertj.version>
-        <approvaltests.version>18.7.1</approvaltests.version>
+        <approvaltests.version>24.22.0</approvaltests.version>
         <!-- plugins -->
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
