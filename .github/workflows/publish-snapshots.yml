@@ -33,11 +33,11 @@ jobs:
           java-version: 17
           distribution: 'temurin'
           cache: 'maven'
-          server-id: central
-          server-username: CENTRAL_PORTAL_USERNAME
-          server-password: CENTRAL_PORTAL_PASSWORD
+          server-id: central-portal
+          server-username-env-var: CENTRAL_PORTAL_USERNAME
+          server-password-env-var: CENTRAL_PORTAL_PASSWORD
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          gpg-passphrase-env-var: MAVEN_GPG_PASSPHRASE
 
       - name: Build and publish
         run: mvn deploy -ntp --batch-mode -P release
